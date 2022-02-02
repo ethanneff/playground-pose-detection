@@ -1,0 +1,24 @@
+{
+  "editor.formatOnSave": true,
+  "files.insertFinalNewline": true,
+  "editor.codeActionsOnSave": ["source.organizeImports", "source.fixAll"],
+  "workbench.editor.enablePreview": false,
+  "workbench.editor.enablePreviewFromQuickOpen": false,
+  "editor.gotoLocation.multipleImplementations": "goto",
+  "editor.gotoLocation.multipleDeclarations": "goto",
+  "editor.gotoLocation.multipleDefinitions": "goto",
+  "editor.gotoLocation.multipleReferences": "goto",
+  "editor.gotoLocation.multipleTypeDefinitions": "goto",
+  "terminal.integrated.defaultProfile.osx": "zsh",
+  "terminal.integrated.fontFamily": "FiraCode-Regular",
+  "workbench.editor.showTabs": true,
+  "workbench.editor.labelFormat": "short",
+  "typescript.preferences.importModuleSpecifier": "relative",
+  "search.exclude": {
+    "**/node_modules/": true,
+    "**/coverage/": true,
+    "**/yarn.lock": true,
+    "**/Podfile.lock": true,
+    "**/__snapshots__/*": true
+  }
+}
