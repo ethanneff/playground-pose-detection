@@ -24,15 +24,8 @@ export const CameraSwitcher = () => {
     <TouchableOpacity
       onPress={handleSwitchCameraType}
       style={{
-        position: "absolute",
-        top: 10,
-        right: 10,
-        width: 180,
-        alignItems: "center",
         backgroundColor: Constants.buttonColor,
-        borderRadius: 2,
         padding: 8,
-        zIndex: 20,
       }}
     >
       <Text>{message}</Text>

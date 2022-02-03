@@ -8,7 +8,7 @@ import { Camera } from "expo-camera";
 import { ExpoWebGLRenderingContext } from "expo-gl";
 import * as ScreenOrientation from "expo-screen-orientation";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Dimensions, Text, View } from "react-native";
+import { Dimensions, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import _ from "underscore";
 import {
   orientationSlice,
@@ -30,6 +30,7 @@ export const App = () => {
   const cameraType = useAppSelector((state) => state.pose.cameraType);
   const rafId = useRef<number | null>(null);
   const {
+    isPortrait,
     getOutputTensorWidth,
     getOutputTensorHeight,
     getTextureRotationAngleInDegrees,
@@ -136,9 +137,7 @@ export const App = () => {
     return (
       <View
         style={{
-          position: "absolute",
-          width: "100%",
-          height: "100%",
+          flex: 1,
           alignItems: "center",
           justifyContent: "center",
         }}
@@ -149,29 +148,49 @@ export const App = () => {
   }
 
   return (
-    <View
-      style={{
-        position: "relative",
-        width: Constants.camWidth,
-        height: Constants.camHeight,
-        marginTop:
-          Dimensions.get("window").height / 2 - Constants.camHeight / 2,
-      }}
-    >
-      {/* @ts-ignore */}
-      <TensorCamera
-        autorender={Constants.autoRender}
-        onReady={handleCameraStream}
-        resizeDepth={3}
-        resizeHeight={getOutputTensorHeight}
-        resizeWidth={getOutputTensorWidth}
-        rotation={getTextureRotationAngleInDegrees()}
-        style={{ width: "100%", height: "100%", zIndex: 1 }}
-        type={cameraType}
-      />
-      <Poses />
-      <Fps />
-      <CameraSwitcher />
+    <View style={{ flex: 1, backgroundColor: "black" }}>
+      <View style={isPortrait ? styles.portrait : styles.landscape}>
+        {/* @ts-ignore */}
+        <TensorCamera
+          autorender={Constants.autoRender}
+          onReady={handleCameraStream}
+          resizeDepth={3}
+          resizeHeight={getOutputTensorHeight}
+          resizeWidth={getOutputTensorWidth}
+          rotation={getTextureRotationAngleInDegrees()}
+          style={{ width: "100%", height: "100%", zIndex: 1 }}
+          type={cameraType}
+        />
+        <Poses />
+        <SafeAreaView
+          style={{
+            position: "absolute",
+            width: "100%",
+            height: "100%",
+            zIndex: 20,
+          }}
+        >
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
+            <Fps />
+            <CameraSwitcher />
+          </View>
+        </SafeAreaView>
+      </View>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  portrait: {
+    width: Constants.camWidth,
+    height: Constants.camHeight,
+    marginTop: Dimensions.get("window").height / 2 - Constants.camHeight / 2,
+  },
+  landscape: {
+    width: Constants.camHeight,
+    height: Constants.camWidth,
+    marginLeft: Dimensions.get("window").height / 2 - Constants.camHeight / 2,
+  },
+});

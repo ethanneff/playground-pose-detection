@@ -8,15 +8,8 @@ export const Fps = () => {
   return (
     <View
       style={{
-        position: "absolute",
-        top: 10,
-        left: 10,
-        width: 80,
-        alignItems: "center",
         backgroundColor: Constants.buttonColor,
-        borderRadius: 2,
         padding: 8,
-        zIndex: 20,
       }}
     >
       <Text>FPS: {fps}</Text>
