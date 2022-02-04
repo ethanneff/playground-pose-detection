@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, View } from "react-native";
-import { useAppSelector } from "../../redux";
+import { useAppSelector } from "../../middleware/redux";
 import { Constants } from "./constants";
 
 export const Fps = () => {

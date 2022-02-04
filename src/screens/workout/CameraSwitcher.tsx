@@ -1,7 +1,11 @@
 import { Camera } from "expo-camera";
 import React, { useCallback } from "react";
 import { Text, TouchableOpacity } from "react-native";
-import { poseSlice, useAppDispatch, useAppSelector } from "../../redux";
+import {
+  poseSlice,
+  useAppDispatch,
+  useAppSelector,
+} from "../../middleware/redux";
 import { Constants } from "./constants";
 
 export const CameraSwitcher = () => {

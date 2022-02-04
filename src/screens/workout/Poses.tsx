@@ -2,7 +2,7 @@ import * as posedetection from "@tensorflow-models/pose-detection";
 import { Camera } from "expo-camera";
 import React from "react";
 import Svg, { Circle } from "react-native-svg";
-import { useAppSelector } from "../../redux";
+import { useAppSelector } from "../../middleware/redux";
 import { Constants } from "./constants";
 import { usePoseUtils } from "./usePoseUtils";
 
@@ -37,7 +37,7 @@ export const Poses = () => {
         width: "100%",
         height: "100%",
         position: "absolute",
-        zIndex: 30,
+        zIndex: 20,
       }}
     >
       {poses[0].keypoints

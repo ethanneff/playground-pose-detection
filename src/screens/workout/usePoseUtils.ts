@@ -1,6 +1,6 @@
 import { Camera } from "expo-camera";
 import * as ScreenOrientation from "expo-screen-orientation";
-import { useAppSelector } from "./../../redux/hooks";
+import { useAppSelector } from "../../middleware/redux/hooks";
 import { Constants } from "./constants";
 
 export const usePoseUtils = () => {

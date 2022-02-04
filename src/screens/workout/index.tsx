@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import * as posedetection from "@tensorflow-models/pose-detection";
 import * as tf from "@tensorflow/tfjs";
 import {
@@ -8,14 +9,16 @@ import { Camera } from "expo-camera";
 import { ExpoWebGLRenderingContext } from "expo-gl";
 import * as ScreenOrientation from "expo-screen-orientation";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Dimensions, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { Button, Dimensions, StyleSheet, Text, View } from "react-native";
 import _ from "underscore";
+import { Hud } from "../../components/hud";
 import {
   orientationSlice,
   poseSlice,
   useAppDispatch,
   useAppSelector,
-} from "../../redux";
+} from "../../middleware/redux";
+import { Route, UseNavigation } from "../../types";
 import { CameraSwitcher } from "./CameraSwitcher";
 import { Constants } from "./constants";
 import { Fps } from "./FPS";
@@ -24,7 +27,21 @@ import { usePoseUtils } from "./usePoseUtils";
 
 const TensorCamera = cameraWithTensors(Camera);
 
-export const App = () => {
+const styles = StyleSheet.create({
+  landscape: {
+    height: Constants.camWidth,
+    marginLeft: Dimensions.get("window").height / 2 - Constants.camHeight / 2,
+    width: Constants.camHeight,
+  },
+  portrait: {
+    height: Constants.camHeight,
+    marginTop: Dimensions.get("window").height / 2 - Constants.camHeight / 2,
+    width: Constants.camWidth,
+  },
+});
+
+export const Workout = () => {
+  const { navigate, goBack } = useNavigation<UseNavigation>();
   const dispatch = useAppDispatch();
   const [model, setModel] = useState<posedetection.PoseDetector>();
   const cameraType = useAppSelector((state) => state.pose.cameraType);
@@ -133,6 +150,17 @@ export const App = () => {
     [dispatch, model]
   );
 
+  const handleNav = useCallback(
+    (location: Route) => () => {
+      if (location === "landing") {
+        goBack();
+        return;
+      }
+      navigate(location);
+    },
+    [goBack, navigate]
+  );
+
   if (!model) {
     return (
       <View
@@ -148,7 +176,7 @@ export const App = () => {
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: "black" }}>
+    <View style={{ flex: 1 }}>
       <View style={isPortrait ? styles.portrait : styles.landscape}>
         {/* @ts-ignore */}
         <TensorCamera
@@ -162,35 +190,18 @@ export const App = () => {
           type={cameraType}
         />
         <Poses />
-        <SafeAreaView
-          style={{
-            position: "absolute",
-            width: "100%",
-            height: "100%",
-            zIndex: 20,
-          }}
-        >
+        <Hud>
           <View
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
             <Fps />
             <CameraSwitcher />
           </View>
-        </SafeAreaView>
+          <Button onPress={handleNav("settings")} title="settings" />
+          <Button onPress={handleNav("results")} title="results" />
+          <Button onPress={handleNav("landing")} title="exit" />
+        </Hud>
       </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  portrait: {
-    width: Constants.camWidth,
-    height: Constants.camHeight,
-    marginTop: Dimensions.get("window").height / 2 - Constants.camHeight / 2,
-  },
-  landscape: {
-    width: Constants.camHeight,
-    height: Constants.camWidth,
-    marginLeft: Dimensions.get("window").height / 2 - Constants.camHeight / 2,
-  },
-});

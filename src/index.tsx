@@ -1,11 +1,12 @@
 import React from "react";
-import { ReduxProvider } from "./redux";
-import { App } from "./screens";
+import { AppProvider, NavigationProvider, ReduxProvider } from "./middleware";
 
 export const Root = () => {
   return (
     <ReduxProvider>
-      <App />
+      <AppProvider>
+        <NavigationProvider />
+      </AppProvider>
     </ReduxProvider>
   );
 };
