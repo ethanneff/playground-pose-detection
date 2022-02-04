@@ -7,13 +7,11 @@ import {
 } from "@tensorflow/tfjs-react-native";
 import { Camera } from "expo-camera";
 import { ExpoWebGLRenderingContext } from "expo-gl";
-import * as ScreenOrientation from "expo-screen-orientation";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Button, Dimensions, StyleSheet, Text, View } from "react-native";
 import _ from "underscore";
 import { Hud } from "../../components/hud";
 import {
-  orientationSlice,
   poseSlice,
   useAppDispatch,
   useAppSelector,
@@ -56,19 +54,6 @@ export const Workout = () => {
   useEffect(() => {
     const prepare = async () => {
       rafId.current = null;
-
-      // Set initial orientation.
-      const curOrientation = await ScreenOrientation.getOrientationAsync();
-      dispatch(orientationSlice.actions.setOrientation(curOrientation));
-
-      // Listens to orientation change.
-      ScreenOrientation.addOrientationChangeListener((event) => {
-        dispatch(
-          orientationSlice.actions.setOrientation(
-            event.orientationInfo.orientation
-          )
-        );
-      });
 
       // Camera permission.
       await Camera.requestCameraPermissionsAsync();
