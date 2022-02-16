@@ -3,7 +3,7 @@ import * as posedetection from "@tensorflow-models/pose-detection";
 import * as tf from "@tensorflow/tfjs";
 import {
   bundleResourceIO,
-  cameraWithTensors,
+  cameraWithTensors
 } from "@tensorflow/tfjs-react-native";
 import { Camera } from "expo-camera";
 import { ExpoWebGLRenderingContext } from "expo-gl";
@@ -14,7 +14,7 @@ import { Hud } from "../../components/hud";
 import {
   poseSlice,
   useAppDispatch,
-  useAppSelector,
+  useAppSelector
 } from "../../middleware/redux";
 import { Route, UseNavigation } from "../../types";
 import { CameraSwitcher } from "./CameraSwitcher";
@@ -68,9 +68,9 @@ export const Workout = () => {
         enableSmoothing: true,
       };
       if (Constants.loadModelFromBundle) {
-        const modelJson = require("../../../offline_model/model.json");
-        const modelWeights1 = require("../../../offline_model/group1-shard1of2.bin");
-        const modelWeights2 = require("../../../offline_model/group1-shard2of2.bin");
+        const modelJson = require("../../models/model.json");
+        const modelWeights1 = require("../../models/group1-shard1of2.bin");
+        const modelWeights2 = require("../../models/group1-shard2of2.bin");
         movenetModelConfig.modelUrl = bundleResourceIO(modelJson, [
           modelWeights1,
           modelWeights2,
